@@ -1,0 +1,42 @@
+<app-main-layout>
+  <div
+    class="mx-auto flex w-full max-w-screen-md flex-grow flex-col items-center gap-4 pb-24"
+  >
+    <img src="images/logo.webp" alt="Logo" class="size-64 rounded-full" />
+    <div class="flex flex-col items-center">
+      @if (!isOpen()) {
+        <app-button class="mb-4" (click)="toggleIsOpen()">Play</app-button>
+      } @else if (isOpen()) {
+        <div class="flex flex-col items-center gap-2">
+          <input
+            type="text"
+            autofocus
+            placeholder="Your name"
+            name="playerName"
+            class="w-48 rounded-full border border-gray-400 px-4 pb-1 pt-2"
+            [(ngModel)]="playerName"
+          />
+          <p class="mb-4 text-xs">
+            * We just this this for the leader board <br />
+            If you care for glory, you can leaver it empty
+          </p>
+
+          <app-button variant="secondary" (click)="startGame(3)"
+            >Easy</app-button
+          >
+          <app-button variant="secondary" (click)="startGame(2)"
+            >Medium</app-button
+          >
+          <app-button variant="secondary" (click)="startGame(1)"
+            >Hard</app-button
+          >
+        </div>
+      }
+    </div>
+
+    <div class="text-center">
+      <p>You think you know your music?</p>
+      <p>Let's see how many songs you can guess!</p>
+    </div>
+  </div>
+</app-main-layout>
