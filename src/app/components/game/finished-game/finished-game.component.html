@@ -1,0 +1,23 @@
+<app-modal title="Congrats!">
+  <p class="">You got all the songs correct!</p>
+  <p class="mb-8">
+    You earned
+    @if (game().gameFinished) {
+      <span class="font-display font-semibold">{{
+        game().score * game().hearts
+      }}</span>
+    } @else {
+      <span class="font-display font-semibold">{{ game().score }}</span>
+    }
+    points
+  </p>
+
+  <div class="flex flex-col gap-2 text-sm">
+    @if (game().playerName) {
+      <app-button routerLink="/leader-board" variant="secondary"
+        >See the leader board</app-button
+      >
+    }
+    <app-button (onClick)="gameService.restartGame()">Play again</app-button>
+  </div>
+</app-modal>

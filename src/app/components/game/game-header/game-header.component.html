@@ -1,0 +1,21 @@
+<header class="flex items-start justify-between">
+  <div class="flexflex-col gap-2">
+    <div class="flex gap-2">
+      <app-heart [fill]="game().hearts >= 1" />
+      <app-heart [fill]="game().hearts >= 2" />
+      <app-heart [fill]="game().hearts >= 3" />
+      @if (game().difficulty > 1) {
+        <app-heart [fill]="game().hearts >= 4" />
+      }
+
+      @if (game().difficulty > 2) {
+        <app-heart [fill]="game().hearts >= 5" />
+      }
+    </div>
+    <div>
+      <p>Score: {{ game().score }}</p>
+    </div>
+  </div>
+
+  <span class="cursor-pointer pt-1" (click)="endGame()">Exit</span>
+</header>

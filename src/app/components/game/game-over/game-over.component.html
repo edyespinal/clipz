@@ -1,0 +1,11 @@
+<app-modal title="Game Over">
+  <div class="mb-8">
+    <p class="">You lost but you got a new high score!</p>
+    <app-button routerLink="/leader-board" variant="secondary"
+      >See the leader board</app-button
+    >
+  </div>
+
+  <p>You want to try again?</p>
+  <app-button (onClick)="gameService.restartGame()">Restart</app-button>
+</app-modal>

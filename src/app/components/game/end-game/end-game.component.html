@@ -1,0 +1,9 @@
+<app-modal title="End the Game">
+  <p class="mb-4">Are you sure you want to end the game?</p>
+  <div class="flex flex-col gap-2 text-sm">
+    <app-button variant="secondary" (onClick)="gameService.cancelEndGame()"
+      >No</app-button
+    >
+    <app-button routerLink="/">Yes</app-button>
+  </div>
+</app-modal>
