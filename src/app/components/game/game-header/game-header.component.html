@@ -1,6 +1,6 @@
 <header class="flex items-start justify-between">
-  <div class="flexflex-col gap-2">
-    <div class="flex gap-2">
+  <div class="flex flex-col">
+    <div class="flex">
       <app-heart [fill]="game().hearts >= 1" />
       <app-heart [fill]="game().hearts >= 2" />
       <app-heart [fill]="game().hearts >= 3" />
@@ -13,7 +13,7 @@
       }
     </div>
     <div>
-      <p>Score: {{ game().score }}</p>
+      <p class="font-display">Score: {{ game().score }}</p>
     </div>
   </div>
 
