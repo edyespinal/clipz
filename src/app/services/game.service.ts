@@ -5,6 +5,7 @@ import { SongsService } from "./songs.service";
 import { CompareStringsService } from "./compare-strings.service";
 import { LeaderBoardService } from "./leader-board.service";
 import { DIFFICULTY } from "@utils/constants";
+import { getAnalytics, logEvent } from "@angular/fire/analytics";
 
 @Injectable({
   providedIn: "root",
@@ -14,6 +15,7 @@ export class GameService {
   compareService = inject(CompareStringsService);
   leaderBoardService = inject(LeaderBoardService);
   router = inject(Router);
+  analytics = getAnalytics();
 
   isLoading = signal(true);
   showCorrectGuess = signal(false);
@@ -41,6 +43,8 @@ export class GameService {
   }
 
   async initializeGame(difficulty: Difficulty) {
+    logEvent(this.analytics, "game_started");
+
     const songs = await this.songsService.getSongs();
     const lowestHighScore = await this.leaderBoardService.getLowestScore();
 
