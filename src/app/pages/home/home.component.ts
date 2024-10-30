@@ -7,6 +7,13 @@ import { MainLayoutComponent } from "@components/layout/main-layout/main-layout.
 import { Difficulty } from "@models/Game";
 import { GameService } from "@services/game.service";
 import { FormsModule } from "@angular/forms";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from "@angular/animations";
 
 @Component({
   selector: "app-home",
@@ -18,6 +25,24 @@ import { FormsModule } from "@angular/forms";
     FooterComponent,
     MainLayoutComponent,
     FormsModule,
+  ],
+  animations: [
+    trigger("openClose", [
+      state(
+        "open",
+        style({
+          height: "300px",
+        }),
+      ),
+      state(
+        "closed",
+        style({
+          height: 0,
+        }),
+      ),
+      transition("open => closed", [animate("0.1s")]),
+      transition("closed => open", [animate("0.1s")]),
+    ]),
   ],
   templateUrl: "./home.component.html",
   styleUrl: "./home.component.css",
