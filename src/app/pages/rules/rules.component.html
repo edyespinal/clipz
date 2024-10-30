@@ -1,17 +1,29 @@
 <app-main-layout>
-  <div class="mx-auto flex max-w-[512px] flex-col">
-    <h1 class="font-display text-4xl font-semibold">Rules</h1>
+  <div class="mx-auto flex flex-col px-4">
+    <h1 class="mb-4 font-display text-4xl font-semibold">Rules</h1>
+    <p>The whole point is to see how many songs you can guess.</p>
     <p class="mb-2">Rules are simple:</p>
     <ol class="mb-8 list-inside list-decimal">
-      <li>You get to hear a few seconds of the beginning of a song *</li>
-      <li>Guess the song</li>
-      <li>If you get it right, you get a point</li>
-      <li>...That's it! Easy right?</li>
+      <li>
+        You get to hear a few seconds of the beginning of a song.
+        <span class="text-primary">*</span>
+      </li>
+      <li>
+        Guess the name of the song (no need for the artist's name).<span
+          class="text-primary"
+          >**</span
+        >
+      </li>
+      <li>If you get it right, you get a new song and some points.</li>
+      <li>...That's it! Easy, no?</li>
     </ol>
-    <p>How many songs can you guess?</p>
+
     <p class="text-sm">
-      * The higher the difficulty, the less seconds you get to hear but you get
-      a points multiplier when you get it right!
+      <span class="text-primary">*</span> The higher the difficulty, the less
+      seconds you get to hear the song but you get a points multiplier when you
+      get it right! <br />
+      <span class="text-primary">**</span> If you don't know the song, you can
+      skip it but you lose a heart.
     </p>
   </div>
 </app-main-layout>
