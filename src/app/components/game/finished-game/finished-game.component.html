@@ -2,13 +2,7 @@
   <p class="">You got all the songs correct!</p>
   <p class="mb-8">
     You earned
-    @if (game().gameFinished) {
-      <span class="font-display font-semibold">{{
-        game().score * game().hearts
-      }}</span>
-    } @else {
-      <span class="font-display font-semibold">{{ game().score }}</span>
-    }
+    <span class="font-display font-semibold">{{ game().score }}</span>
     points
   </p>
 

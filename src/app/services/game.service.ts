@@ -180,7 +180,9 @@ export class GameService {
   }
 
   private finishedGame() {
-    this.setState({ gameFinished: true });
+    this.showGameFinished.set(true);
+
+    this.setState({ score: this.gameState().score * 2 });
 
     if (
       this.gameState().playerName &&
@@ -197,6 +199,8 @@ export class GameService {
   public restartGame() {
     this.isLoading.set(true);
     this.showGameOver.set(false);
+    this.showGameFinished.set(false);
+    this.showSongSkipped.set(false);
     this.initializeGame(this.gameState().difficulty);
   }
 
