@@ -4,6 +4,6 @@
     <app-button variant="secondary" (onClick)="gameService.cancelEndGame()"
       >No</app-button
     >
-    <app-button routerLink="/">Yes</app-button>
+    <app-button (onClick)="gameService.endGame()">Yes</app-button>
   </div>
 </app-modal>

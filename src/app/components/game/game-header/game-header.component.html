@@ -17,5 +17,9 @@
     </div>
   </div>
 
-  <span class="cursor-pointer pt-1" (click)="endGame()">Exit</span>
+  <span
+    class="cursor-pointer pt-1"
+    (click)="gameService.showGameEnded.set(true)"
+    >Exit</span
+  >
 </header>
