@@ -5,7 +5,6 @@ import {
   Firestore,
   getDocs,
 } from "@angular/fire/firestore";
-import { Difficulty } from "@models/Game";
 import { Leader, LeaderInput } from "@models/Leader";
 import { LEADERS } from "@utils/constants";
 
@@ -32,7 +31,7 @@ export class LeaderBoardService {
   public async getLowestScore() {
     const leaders = await this.getLeaders();
 
-    if (leaders.length === 0) {
+    if (leaders.length === 0 || leaders.length < 10) {
       return 0;
     }
 

@@ -6,8 +6,6 @@ import { Injectable } from "@angular/core";
 export class CompareStringsService {
   /** Using the Damerau-Levenshtein distance algorithm */
   public compareStrings(string1: string, string2: string) {
-    console.time("compareStrings");
-
     const str1 = string1.toLowerCase();
     const str2 = string2.toLowerCase();
 
@@ -64,9 +62,6 @@ export class CompareStringsService {
       }
       dictionary[str1[i - 1]] = i;
     }
-
-    console.log(distances);
-    console.log(distances[str1Length][str2Length]);
 
     const distance = distances[str1Length][str2Length];
 

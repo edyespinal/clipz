@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, inject, OnInit, signal, viewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { GameHeaderComponent } from "../../components/game/game-header/game-header.component";
 import { ButtonComponent } from "../../components/common/button/button.component";
@@ -10,6 +10,17 @@ import { CorrectGuessComponent } from "../../components/game/correct-guess/corre
 import { FinishedGameComponent } from "../../components/game/finished-game/finished-game.component";
 import { EndGameComponent } from "../../components/game/end-game/end-game.component";
 import { GameOverComponent } from "@components/game/game-over/game-over.component";
+import {
+  animate,
+  keyframes,
+  state,
+  style,
+  transition,
+  trigger,
+} from "@angular/animations";
+import { NgClass } from "@angular/common";
+import { SkipSongComponent } from "../../components/game/skip-song/skip-song.component";
+import { LoaderComponent } from "../../components/common/loader/loader.component";
 
 @Component({
   selector: "app-game",
@@ -23,6 +34,60 @@ import { GameOverComponent } from "@components/game/game-over/game-over.componen
     FinishedGameComponent,
     GameOverComponent,
     EndGameComponent,
+    NgClass,
+    SkipSongComponent,
+    LoaderComponent,
+  ],
+  animations: [
+    trigger("shake", [
+      state(
+        "true",
+        style({
+          transform: "translateX(5px)",
+        }),
+      ),
+      state(
+        "false",
+        style({
+          transform: "translateX(0)",
+        }),
+      ),
+      transition(
+        "false <=> true",
+        animate(
+          250,
+          keyframes([
+            style({
+              transform: "translateX(0)",
+            }),
+            style({
+              transform: "translateX(5px)",
+            }),
+            style({
+              transform: "translateX(0)",
+            }),
+            style({
+              transform: "translateX(-5px)",
+            }),
+            style({
+              transform: "translateX(0)",
+            }),
+            style({
+              transform: "translateX(5px)",
+            }),
+            style({
+              transform: "translateX(0)",
+            }),
+            style({
+              transform: "translateX(-5px)",
+            }),
+            style({
+              transform: "translateX(0)",
+            }),
+          ]),
+        ),
+      ),
+    ]),
   ],
   templateUrl: "./game.component.html",
   styleUrl: "./game.component.css",

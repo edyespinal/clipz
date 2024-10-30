@@ -1,4 +1,10 @@
-import { computed, inject, Injectable, signal } from "@angular/core";
+import {
+  computed,
+  ElementRef,
+  inject,
+  Injectable,
+  signal,
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { Difficulty, Game, Song } from "@models/Game";
 import { SongsService } from "./songs.service";
@@ -14,6 +20,8 @@ export class GameService {
   compareService = inject(CompareStringsService);
   leaderBoardService = inject(LeaderBoardService);
   router = inject(Router);
+  isLoading = signal(true);
+
   audio = new Audio();
 
   readonly gameState = signal({} as Game);
@@ -34,23 +42,50 @@ export class GameService {
     const songs = await this.songsService.getSongs();
     const lowestHighScore = await this.leaderBoardService.getLowestScore();
 
+    let multiplier = 1;
+
+    switch (difficulty) {
+      case DIFFICULTY.EASY: {
+        multiplier = 1;
+        break;
+      }
+
+      case DIFFICULTY.MEDIUM: {
+        multiplier = 2;
+        break;
+      }
+
+      case DIFFICULTY.HARD: {
+        multiplier = 3;
+        break;
+      }
+    }
+
     this.setState({
       difficulty: difficulty,
       score: 0,
+      scoreMultiplier: multiplier,
       hearts: +difficulty + 2,
+      hints: 0,
+      skips: +difficulty,
       playerGuess: "",
       songs,
       level: 1,
       showCorrectGuess: false,
+      incorrectGuess: false,
+      skipSong: false,
       gameFinished: false,
       endgame: false,
       disableGuess: false,
       gameOver: false,
       lowestHighScore,
     });
+
+    this.isLoading.set(false);
   }
 
   public playSong() {
+    this.setState({ incorrectGuess: false });
     this.audio.src = `audio/${this.gameState().songs[this.gameState().level - 1].index}.m4a#t=,${this.gameState().difficulty}`;
     this.audio.currentTime = 0;
     this.audio.play();
@@ -67,11 +102,18 @@ export class GameService {
     const currentSong = this.gameState().songs[this.gameState().level - 1].name;
 
     if (!this.compareService.compareStrings(playerGuess, currentSong)) {
-      this.setState({ hearts: this.gameState().hearts - 1 });
+      this.setState({
+        hearts: this.gameState().hearts - 1,
+        incorrectGuess: true,
+      });
 
       if (this.gameState().hearts === 0) {
         return this.gameOver();
       }
+
+      setTimeout(() => {
+        this.setState({ incorrectGuess: false });
+      }, 250);
 
       return;
     }
@@ -81,7 +123,7 @@ export class GameService {
     }
 
     this.setState({
-      score: this.gameState().score + 1,
+      score: this.gameState().score + this.gameState().scoreMultiplier,
       showCorrectGuess: true,
       disableGuess: true,
     });
@@ -100,34 +142,22 @@ export class GameService {
     }
   }
 
+  public skipSong() {
+    this.setState({ skipSong: false, skips: this.gameState().skips - 1 });
+
+    if (this.gameState().level < this.gameState().songs.length) {
+      this.setState({ hearts: this.gameState().hearts - 1 });
+      this.levelUp();
+    } else {
+      this.finishedGame();
+    }
+  }
+
   private levelUp() {
     this.setState({
       level: this.gameState().level + 1,
       playerGuess: "",
     });
-  }
-
-  private calculateTotalScore() {
-    let multiplier = 1;
-
-    switch (this.gameState().difficulty) {
-      case DIFFICULTY.EASY: {
-        multiplier = 1;
-        break;
-      }
-
-      case DIFFICULTY.MEDIUM: {
-        multiplier = 2;
-        break;
-      }
-
-      case DIFFICULTY.HARD: {
-        multiplier = 3;
-        break;
-      }
-    }
-
-    return this.gameState().score * multiplier;
   }
 
   private gameOver() {
@@ -139,7 +169,7 @@ export class GameService {
     ) {
       this.leaderBoardService.addLeader({
         name: this.gameState().playerName,
-        score: this.calculateTotalScore(),
+        score: this.gameState().score,
         difficulty: this.gameState().difficulty,
       });
     }
@@ -154,7 +184,7 @@ export class GameService {
     ) {
       this.leaderBoardService.addLeader({
         name: this.gameState().playerName,
-        score: this.calculateTotalScore(),
+        score: this.gameState().score,
         difficulty: this.gameState().difficulty,
       });
     }
