@@ -1,6 +1,15 @@
 <div class="mx-auto max-w-screen-md p-4">
+  @if (gameService.isLoading()) {
+    <div
+      class="fixed inset-0 z-[99] flex flex-col items-center justify-center bg-secondary"
+    >
+      <app-loader />
+      <p class="font-display">Loading...</p>
+    </div>
+  }
+
   <app-game-header />
-  @if (game().showCorrectGuess) {
+  @if (gameService.showCorrectGuess()) {
     <app-correct-guess
       class="z-10"
       [song]="game().songs[game().level - 1]"
@@ -8,53 +17,48 @@
     />
   }
 
-  @if (game().skipSong) {
+  @if (gameService.showSongSkipped()) {
     <app-skip-song />
   }
 
-  @if (game().gameOver) {
+  @if (gameService.showGameOver()) {
     <app-game-over />
   }
 
-  @if (game().gameFinished) {
+  @if (gameService.showGameFinished()) {
     <app-finished-game />
   }
 
-  @if (game().endgame) {
+  @if (gameService.showGameEnded()) {
     <app-end-game />
   }
 
   <div
     class="mt-16 flex h-full flex-col items-center justify-between text-center"
-    [@shake]="game().incorrectGuess"
+    [@shake]="gameService.showIncorrectGuess()"
   >
-    @if (gameService.isLoading()) {
-      <app-loader />
-      <p class="font-display">Loading...</p>
-    } @else {
-      <app-play-button class="mb-12" (click)="gameService.playSong()" />
-      <form class="flex flex-col gap-4" autocomplete="off">
-        <input
-          type="text"
-          autofocus
-          name="playerGuess"
-          autocomplete="off"
-          placeholder="Name of the song"
-          class="min-w-64 max-w-72 rounded-full border border-gray-400 px-4 py-2"
-          [(ngModel)]="game().playerGuess"
-        />
-        <app-button (click)="gameService.guessSong()">Guess</app-button>
+    <app-play-button class="mb-12" (click)="gameService.playSong()" />
+    <form class="flex flex-col gap-4" autocomplete="off">
+      <input
+        type="text"
+        autofocus
+        name="playerGuess"
+        autocomplete="off"
+        placeholder="Name of the song"
+        class="min-w-64 max-w-72 rounded-full border border-gray-400 px-4 py-2"
+        [(ngModel)]="game().playerGuess"
+      />
+      <app-button (click)="gameService.guessSong()">Guess</app-button>
 
-        @if (game().skips > 0) {
-          <app-button
-            (onClick)="gameService.setState({ skipSong: true })"
-            class="text-xs"
-            variant="secondary"
-          >
-            Skip
-          </app-button>
-        }
-      </form>
-    }
+      @if (game().skips > 0) {
+        <app-button
+          (onClick)="gameService.showSongSkipped.set(true)"
+          class="text-xs"
+          variant="secondary"
+        >
+          Skip
+        </app-button>
+      }
+    </form>
   </div>
 </div>

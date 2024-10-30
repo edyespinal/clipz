@@ -1,10 +1,4 @@
-import {
-  computed,
-  ElementRef,
-  inject,
-  Injectable,
-  signal,
-} from "@angular/core";
+import { computed, inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { Difficulty, Game, Song } from "@models/Game";
 import { SongsService } from "./songs.service";
@@ -20,7 +14,15 @@ export class GameService {
   compareService = inject(CompareStringsService);
   leaderBoardService = inject(LeaderBoardService);
   router = inject(Router);
+
   isLoading = signal(true);
+  showCorrectGuess = signal(false);
+  showIncorrectGuess = signal(false);
+  showGameOver = signal(false);
+  showGameFinished = signal(false);
+  showGameEnded = signal(false);
+  showSongSkipped = signal(false);
+  isGuessDisabled = signal(false);
 
   audio = new Audio();
 
@@ -71,28 +73,26 @@ export class GameService {
       playerGuess: "",
       songs,
       level: 1,
-      showCorrectGuess: false,
-      incorrectGuess: false,
-      skipSong: false,
       gameFinished: false,
-      endgame: false,
-      disableGuess: false,
+      gameEnded: false,
       gameOver: false,
       lowestHighScore,
     });
 
-    this.isLoading.set(false);
+    setTimeout(() => {
+      this.isLoading.set(false);
+    }, 250);
   }
 
   public playSong() {
-    this.setState({ incorrectGuess: false });
+    this.showIncorrectGuess.set(false);
     this.audio.src = `audio/${this.gameState().songs[this.gameState().level - 1].index}.m4a#t=,${this.gameState().difficulty}`;
     this.audio.currentTime = 0;
     this.audio.play();
   }
 
   public guessSong() {
-    if (this.gameState().disableGuess) {
+    if (this.isGuessDisabled()) {
       return;
     }
 
@@ -102,17 +102,20 @@ export class GameService {
     const currentSong = this.gameState().songs[this.gameState().level - 1].name;
 
     if (!this.compareService.compareStrings(playerGuess, currentSong)) {
-      this.setState({
-        hearts: this.gameState().hearts - 1,
-        incorrectGuess: true,
-      });
+      this.showIncorrectGuess.set(true);
 
-      if (this.gameState().hearts === 0) {
+      const hearts = this.gameState().hearts - 1;
+
+      if (hearts === 0) {
         return this.gameOver();
       }
 
+      this.setState({
+        hearts,
+      });
+
       setTimeout(() => {
-        this.setState({ incorrectGuess: false });
+        this.showIncorrectGuess.set(false);
       }, 250);
 
       return;
@@ -122,18 +125,17 @@ export class GameService {
       return this.finishedGame();
     }
 
+    this.showCorrectGuess.set(true);
+    this.isGuessDisabled.set(true);
+
     this.setState({
       score: this.gameState().score + this.gameState().scoreMultiplier,
-      showCorrectGuess: true,
-      disableGuess: true,
     });
   }
 
   public continueGame() {
-    this.setState({
-      showCorrectGuess: false,
-      disableGuess: false,
-    });
+    this.showCorrectGuess.set(false);
+    this.isGuessDisabled.set(false);
 
     if (this.gameState().level < this.gameState().songs.length) {
       this.levelUp();
@@ -143,7 +145,9 @@ export class GameService {
   }
 
   public skipSong() {
-    this.setState({ skipSong: false, skips: this.gameState().skips - 1 });
+    this.showSongSkipped.set(false);
+
+    this.setState({ skips: this.gameState().skips - 1 });
 
     if (this.gameState().level < this.gameState().songs.length) {
       this.setState({ hearts: this.gameState().hearts - 1 });
@@ -161,7 +165,7 @@ export class GameService {
   }
 
   private gameOver() {
-    this.setState({ gameOver: true });
+    this.showGameOver.set(true);
 
     if (
       this.gameState().playerName &&
@@ -191,14 +195,17 @@ export class GameService {
   }
 
   public restartGame() {
+    this.isLoading.set(true);
+    this.showGameOver.set(false);
     this.initializeGame(this.gameState().difficulty);
   }
 
   public endGame() {
-    this.setState({ endgame: true });
+    this.showGameEnded.set(false);
+    this.router.navigate(["/"]);
   }
 
   public cancelEndGame() {
-    this.setState({ endgame: false });
+    this.showGameEnded.set(false);
   }
 }

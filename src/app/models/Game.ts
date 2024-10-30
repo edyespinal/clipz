@@ -8,13 +8,9 @@ export type Game = {
   playerGuess: string;
   songs: Song[];
   level: number;
-  showCorrectGuess: boolean;
-  incorrectGuess: boolean;
   skips: number;
-  skipSong: boolean;
   gameFinished: boolean;
-  endgame: boolean;
-  disableGuess: boolean;
+  gameEnded: boolean;
   gameOver: boolean;
   lowestHighScore: number;
 };
