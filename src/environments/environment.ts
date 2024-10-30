@@ -6,5 +6,6 @@ export const environment = {
     apiKey: "AIzaSyCjQEpweP5u2QsJtu1lfBb5zqsrtlqL364",
     authDomain: "clipz-game.firebaseapp.com",
     messagingSenderId: "656225951785",
+    measurementId: "G-TXB8JQQLVX",
   },
 };

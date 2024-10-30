@@ -9,6 +9,11 @@ import { getDatabase, provideDatabase } from "@angular/fire/database";
 import { getStorage, provideStorage } from "@angular/fire/storage";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { environment } from "../environments/environment.development";
+import {
+  getAnalytics,
+  provideAnalytics,
+  ScreenTrackingService,
+} from "@angular/fire/analytics";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideFirestore(() => getFirestore()),
     provideDatabase(() => getDatabase()),
     provideStorage(() => getStorage()),
+    provideAnalytics(() => getAnalytics()),
+    ScreenTrackingService,
   ],
 };
