@@ -9,6 +9,7 @@ export type Game = {
   songs: Song[];
   level: number;
   skips: number;
+  clipDuration: number;
   gameFinished: boolean;
   gameEnded: boolean;
   gameOver: boolean;

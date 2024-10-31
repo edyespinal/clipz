@@ -11,6 +11,7 @@ export const GAME_PROPS = (difficulty: Difficulty) => {
         hints: 3,
         multiplier: 1,
         skips: 3,
+        clipDuration: 6,
       };
     }
 
@@ -20,6 +21,7 @@ export const GAME_PROPS = (difficulty: Difficulty) => {
         hints: 2,
         multiplier: 2,
         skips: 2,
+        clipDuration: 3,
       };
     }
 
@@ -29,6 +31,7 @@ export const GAME_PROPS = (difficulty: Difficulty) => {
         hints: 1,
         multiplier: 3,
         skips: 1,
+        clipDuration: 1,
       };
     }
 
@@ -38,6 +41,7 @@ export const GAME_PROPS = (difficulty: Difficulty) => {
         hints: 0,
         multiplier: 5,
         skips: 0,
+        clipDuration: 0.5,
       };
     }
   }

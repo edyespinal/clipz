@@ -45,7 +45,8 @@ export class GameService {
   async initializeGame(difficulty: Difficulty) {
     const songs = await this.songsService.getSongs();
     const lowestHighScore = await this.leaderBoardService.getLowestScore();
-    const { multiplier, hearts, skips, hints } = GAME_PROPS(difficulty);
+    const { multiplier, hearts, skips, hints, clipDuration } =
+      GAME_PROPS(difficulty);
 
     this.setState({
       difficulty: difficulty,
@@ -57,6 +58,7 @@ export class GameService {
       playerGuess: "",
       songs,
       level: 1,
+      clipDuration,
       gameFinished: false,
       gameEnded: false,
       gameOver: false,
@@ -70,7 +72,7 @@ export class GameService {
 
   public playSong() {
     this.showIncorrectGuess.set(false);
-    this.audio.src = `audio/${this.gameState().songs[this.gameState().level - 1].index}.m4a#t=,${this.gameState().difficulty}`;
+    this.audio.src = `audio/${this.gameState().songs[this.gameState().level - 1].index}.m4a#t=,${this.gameState().clipDuration}`;
     this.audio.currentTime = 0;
     this.audio.play();
   }
