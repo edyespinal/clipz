@@ -22,4 +22,4 @@ export type Song = {
   artist: string;
 };
 
-export type Difficulty = 1 | 2 | 3;
+export type Difficulty = "easy" | "medium" | "hard" | "legendary";

@@ -12,9 +12,9 @@
         <input
           type="text"
           autofocus
-          placeholder="Your name"
+          placeholder="Your name or nickname"
           name="playerName"
-          class="w-48 rounded-full border border-gray-400 px-4 pb-1 pt-2"
+          class="w-64 rounded-full border border-gray-400 px-4 py-2 text-center placeholder:text-center focus:border-primary focus:outline-primary"
           [(ngModel)]="playerName"
         />
         <p class="mb-4 text-center text-xs italic">
@@ -22,11 +22,15 @@
           If you don't care for glory, you can leave it empty
         </p>
 
-        <app-button variant="secondary" (click)="startGame(3)">Easy</app-button>
-        <app-button variant="secondary" (click)="startGame(2)"
+        <app-button variant="secondary" (click)="startGame('easy')"
+          >Easy</app-button
+        >
+        <app-button variant="secondary" (click)="startGame('medium')"
           >Medium</app-button
         >
-        <app-button variant="secondary" (click)="startGame(1)">Hard</app-button>
+        <app-button variant="secondary" (click)="startGame('hard')"
+          >Hard</app-button
+        >
       </div>
     </div>
 

@@ -4,11 +4,11 @@
       <app-heart [fill]="game().hearts >= 1" />
       <app-heart [fill]="game().hearts >= 2" />
       <app-heart [fill]="game().hearts >= 3" />
-      @if (game().difficulty > 1) {
+      @if (game().difficulty === "medium" || game().difficulty === "easy") {
         <app-heart [fill]="game().hearts >= 4" />
       }
 
-      @if (game().difficulty > 2) {
+      @if (game().difficulty === "easy") {
         <app-heart [fill]="game().hearts >= 5" />
       }
     </div>

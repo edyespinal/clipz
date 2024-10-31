@@ -97,9 +97,8 @@ export class GameComponent implements OnInit {
   readonly game = this.gameService.gameState.asReadonly();
 
   ngOnInit() {
-    const difficulty = Number(
-      this.activatedRoute.snapshot.queryParams["difficulty"],
-    ) as Difficulty;
+    const difficulty: Difficulty =
+      this.activatedRoute.snapshot.queryParams["difficulty"];
 
     this.gameService.initializeGame(difficulty);
   }

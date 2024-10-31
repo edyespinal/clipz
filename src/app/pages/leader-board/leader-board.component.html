@@ -6,12 +6,33 @@
     <ul class="flex min-w-64 flex-col gap-2">
       @for (leader of leaders(); track leader.id; let i = $index) {
         <li class="flex justify-between border-b border-dashed last:border-0">
-          <p class="flex gap-2">
-            <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
-            <span>{{ i + 1 }}.</span>
-            <span>{{ leader.name }}</span>
-          </p>
+          @if (i === 0) {
+            <p class="flex gap-2 text-2xl font-semibold">
+              <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
+              <span>{{ i + 1 }}.</span>
+              <span>{{ leader.name }}</span>
+            </p>
 
+          } @else if (i === 1) {
+            <p class="flex gap-2 text-xl font-semibold">
+              <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
+              <span>{{ i + 1 }}.</span>
+              <span>{{ leader.name }}</span>
+            </p>
+
+          } @else if (i === 2) {
+            <p class="flex gap-2 text-lg font-semibold">
+              <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
+              <span>{{ i + 1 }}.</span>
+              <span>{{ leader.name }}</span>
+            </p>
+          } @else {
+            <p class="flex gap-2">
+              <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
+              <span>{{ i + 1 }}.</span>
+              <span>{{ leader.name }}</span>
+            </p>
+          }
           <p class="font-semibold">{{ leader.score }}</p>
         </li>
       }

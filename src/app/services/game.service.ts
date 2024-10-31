@@ -4,8 +4,8 @@ import { Difficulty, Game, Song } from "@models/Game";
 import { SongsService } from "./songs.service";
 import { CompareStringsService } from "./compare-strings.service";
 import { LeaderBoardService } from "./leader-board.service";
-import { DIFFICULTY } from "@utils/constants";
-import { getAnalytics, logEvent } from "@angular/fire/analytics";
+import { GAME_PROPS } from "@utils/constants";
+import { getAnalytics } from "@angular/fire/analytics";
 
 @Injectable({
   providedIn: "root",
@@ -43,37 +43,17 @@ export class GameService {
   }
 
   async initializeGame(difficulty: Difficulty) {
-    logEvent(this.analytics, "game_started");
-
     const songs = await this.songsService.getSongs();
     const lowestHighScore = await this.leaderBoardService.getLowestScore();
-
-    let multiplier = 1;
-
-    switch (difficulty) {
-      case DIFFICULTY.EASY: {
-        multiplier = 1;
-        break;
-      }
-
-      case DIFFICULTY.MEDIUM: {
-        multiplier = 2;
-        break;
-      }
-
-      case DIFFICULTY.HARD: {
-        multiplier = 3;
-        break;
-      }
-    }
+    const { multiplier, hearts, skips, hints } = GAME_PROPS(difficulty);
 
     this.setState({
       difficulty: difficulty,
       score: 0,
       scoreMultiplier: multiplier,
-      hearts: +difficulty + 2,
-      hints: 0,
-      skips: +difficulty,
+      hearts,
+      skips,
+      hints,
       playerGuess: "",
       songs,
       level: 1,
@@ -210,6 +190,7 @@ export class GameService {
 
   public endGame() {
     this.showGameEnded.set(false);
+    this.audio.pause();
     this.router.navigate(["/"]);
   }
 
