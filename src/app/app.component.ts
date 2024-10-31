@@ -1,5 +1,4 @@
-import { Component, inject } from "@angular/core";
-import { Firestore, getDocs, collection } from "@angular/fire/firestore";
+import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 
 @Component({
@@ -7,8 +6,5 @@ import { RouterOutlet } from "@angular/router";
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: "./app.component.html",
-  styleUrl: "./app.component.css",
 })
-export class AppComponent {
-  title = "clipz";
-}
+export class AppComponent {}

@@ -8,7 +8,6 @@ import { GameService } from "@services/game.service";
   standalone: true,
   imports: [ModalComponent, ButtonComponent],
   templateUrl: "./skip-song.component.html",
-  styleUrl: "./skip-song.component.css",
 })
 export class SkipSongComponent {
   gameService = inject(GameService);

@@ -6,6 +6,5 @@ import { MainLayoutComponent } from "../../components/layout/main-layout/main-la
   standalone: true,
   imports: [MainLayoutComponent],
   templateUrl: "./rules.component.html",
-  styleUrl: "./rules.component.css",
 })
 export class RulesComponent {}

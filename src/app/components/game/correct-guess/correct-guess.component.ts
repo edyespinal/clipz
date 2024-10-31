@@ -8,7 +8,6 @@ import { ModalComponent } from "../../common/modal/modal.component";
   standalone: true,
   imports: [ButtonComponent, ModalComponent],
   templateUrl: "./correct-guess.component.html",
-  styleUrl: "./correct-guess.component.css",
 })
 export class CorrectGuessComponent {
   song = input({} as Song);

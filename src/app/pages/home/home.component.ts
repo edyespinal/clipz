@@ -45,7 +45,6 @@ import {
     ]),
   ],
   templateUrl: "./home.component.html",
-  styleUrl: "./home.component.css",
 })
 export class HomeComponent {
   gameService = inject(GameService);
@@ -62,7 +61,7 @@ export class HomeComponent {
 
     this.router.navigate(["/game"], {
       queryParams: {
-        difficulty: difficulty,
+        difficulty,
       },
     });
   }

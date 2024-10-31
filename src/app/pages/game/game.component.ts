@@ -90,7 +90,6 @@ import { LoaderComponent } from "../../components/common/loader/loader.component
     ]),
   ],
   templateUrl: "./game.component.html",
-  styleUrl: "./game.component.css",
 })
 export class GameComponent implements OnInit {
   gameService = inject(GameService);

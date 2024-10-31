@@ -5,6 +5,5 @@ import { Component } from "@angular/core";
   standalone: true,
   imports: [],
   templateUrl: "./play-button.component.html",
-  styleUrl: "./play-button.component.css",
 })
 export class PlayButtonComponent {}

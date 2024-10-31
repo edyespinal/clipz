@@ -7,6 +7,5 @@ import { MainLayoutComponent } from "../../components/layout/main-layout/main-la
   standalone: true,
   imports: [HeaderComponent, MainLayoutComponent],
   templateUrl: "./credits.component.html",
-  styleUrl: "./credits.component.css",
 })
 export class CreditsComponent {}

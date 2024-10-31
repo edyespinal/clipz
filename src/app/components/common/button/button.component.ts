@@ -6,7 +6,6 @@ import { cn } from "@utils/cn";
   standalone: true,
   imports: [],
   templateUrl: "./button.component.html",
-  styleUrl: "./button.component.css",
 })
 export class ButtonComponent {
   variant = input<"primary" | "secondary">("primary");
@@ -18,15 +17,12 @@ export class ButtonComponent {
   }
 
   ngOnInit() {
-    if (this.variant() === "primary") {
-      this.class = cn(
-        this.class,
-        "bg-primary text-white hover:bg-primary-light",
-      );
+    if (this.variant() === "secondary") {
+      this.class = cn(this.class, "bg-secondary hover:bg-secondary-light");
 
       return;
     }
 
-    this.class = cn(this.class, "bg-secondary  hover:bg-secondary-light");
+    this.class = cn(this.class, "bg-primary text-white hover:bg-primary-light");
   }
 }

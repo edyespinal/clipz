@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ButtonComponent } from "../../common/button/button.component";
 import { AsyncPipe } from "@angular/common";
 import { GameService } from "@services/game.service";
@@ -9,7 +9,6 @@ import { HeartComponent } from "../heart/heart.component";
   standalone: true,
   imports: [ButtonComponent, AsyncPipe, HeartComponent],
   templateUrl: "./game-header.component.html",
-  styleUrl: "./game-header.component.css",
 })
 export class GameHeaderComponent {
   gameService = inject(GameService);

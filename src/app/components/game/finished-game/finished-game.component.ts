@@ -9,7 +9,6 @@ import { GameService } from "@services/game.service";
   standalone: true,
   imports: [ButtonComponent, RouterLink, ModalComponent],
   templateUrl: "./finished-game.component.html",
-  styleUrl: "./finished-game.component.css",
 })
 export class FinishedGameComponent {
   gameService = inject(GameService);

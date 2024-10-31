@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
-import { ModalComponent } from "../../common/modal/modal.component";
-import { ButtonComponent } from "@components/common/button/button.component";
 import { RouterLink } from "@angular/router";
+import { ModalComponent } from "@components/common/modal/modal.component";
+import { ButtonComponent } from "@components/common/button/button.component";
 import { GameService } from "@services/game.service";
 
 @Component({
@@ -9,7 +9,6 @@ import { GameService } from "@services/game.service";
   standalone: true,
   imports: [ModalComponent, ButtonComponent, RouterLink],
   templateUrl: "./game-over.component.html",
-  styleUrl: "./game-over.component.css",
 })
 export class GameOverComponent {
   gameService = inject(GameService);
