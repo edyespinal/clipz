@@ -4,11 +4,7 @@
     <p class="mb-8">These are la creme de la creme</p>
 
     <ul class="flex min-w-64 flex-col gap-2">
-      @for (
-        leader of leaders() | sortLeaders;
-        track leader.id;
-        let i = $index
-      ) {
+      @for (leader of leaders(); track leader.id; let i = $index) {
         <li class="flex justify-between border-b border-dashed last:border-0">
           <p class="flex gap-2">
             <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
