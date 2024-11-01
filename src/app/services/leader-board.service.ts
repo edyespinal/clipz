@@ -14,39 +14,65 @@ import { LEADERS } from "@utils/constants";
 export class LeaderBoardService {
   firestore = inject(Firestore);
 
-  public async getLeaders() {
-    const leaderBoardRef = collection(this.firestore, LEADERS).withConverter({
-      toFirestore: (data: Leader) => data,
-      fromFirestore: (snapshot, options) => snapshot.data(options) as Leader,
-    });
+  public async getLeaders(): Promise<Leader[]> {
+    try {
+      const leaderBoardRef = collection(this.firestore, LEADERS).withConverter({
+        toFirestore: (data: Leader) => data,
+        fromFirestore: (snapshot, options) => snapshot.data(options) as Leader,
+      });
 
-    const docs = await getDocs(leaderBoardRef);
+      const snapshot = await getDocs(leaderBoardRef);
 
-    return docs.docs
-      .map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }))
-      .sort((a, b) => b.score - a.score);
+      if (snapshot.docs.length === 0) {
+        return [];
+      }
+
+      return snapshot.docs
+        .map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+        .sort((a, b) => b.score - a.score);
+    } catch {
+      console.error("Failed to get leaders");
+
+      return [];
+    }
   }
 
   public async getLowestScore() {
-    const leaders = await this.getLeaders();
+    try {
+      const leaders = await this.getLeaders();
 
-    if (leaders.length === 0 || leaders.length < 10) {
+      if (leaders.length === 0 || leaders.length < 10) {
+        return 0;
+      }
+
+      return leaders.sort((a, b) => a.score - b.score)[0].score;
+    } catch {
       return 0;
     }
-
-    return leaders.sort((a, b) => a.score - b.score)[0].score;
   }
 
   public async addLeader(leader: LeaderInput) {
-    const leaderBoardRef = collection(this.firestore, LEADERS).withConverter({
-      toFirestore: (data: LeaderInput) => data,
-      fromFirestore: (snapshot, options) =>
-        snapshot.data(options) as LeaderInput,
-    });
+    try {
+      const leaderBoardRef = collection(this.firestore, LEADERS).withConverter({
+        toFirestore: (data: LeaderInput) => data,
+        fromFirestore: (snapshot, options) =>
+          snapshot.data(options) as LeaderInput,
+      });
 
-    await addDoc(leaderBoardRef, leader);
+      await addDoc(leaderBoardRef, leader);
+
+      return {
+        success: true,
+        message: "Successfully added leader",
+      };
+    } catch {
+      return {
+        success: false,
+        message: "Failed to add leader",
+      };
+    }
   }
 }
