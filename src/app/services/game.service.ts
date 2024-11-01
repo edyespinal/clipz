@@ -1,11 +1,11 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
-import { Difficulty, Game, Song } from "@models/Game";
+import { Difficulty, Game } from "@models/Game";
 import { SongsService } from "./songs.service";
 import { CompareStringsService } from "./compare-strings.service";
 import { LeaderBoardService } from "./leader-board.service";
 import { GAME_PROPS } from "@utils/constants";
-import { getAnalytics } from "@angular/fire/analytics";
+import { getAnalytics, logEvent } from "@angular/fire/analytics";
 
 @Injectable({
   providedIn: "root",
@@ -68,6 +68,11 @@ export class GameService {
     setTimeout(() => {
       this.isLoading.set(false);
     }, 250);
+
+    logEvent(this.analytics, "game_started", {
+      rankedMode: !!this.gameState().playerName,
+      difficulty: this.gameState().difficulty,
+    });
   }
 
   public playSong() {
@@ -166,6 +171,12 @@ export class GameService {
   }
 
   private finishedGame() {
+    logEvent(this.analytics, "game_finished", {
+      rankedMode: !!this.gameState().playerName,
+      difficulty: this.gameState().difficulty,
+      score: this.gameState().score,
+    });
+
     this.showGameFinished.set(true);
 
     this.setState({ score: this.gameState().score * 2 });
