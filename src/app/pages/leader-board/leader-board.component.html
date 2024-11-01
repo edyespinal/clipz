@@ -4,37 +4,50 @@
     <p class="mb-8">These are la creme de la creme</p>
 
     <ul class="flex min-w-64 flex-col gap-2">
-      @for (leader of leaders(); track leader.id; let i = $index) {
-        <li class="flex justify-between border-b border-dashed last:border-0">
-          @if (i === 0) {
-            <p class="flex gap-2 text-2xl font-semibold">
-              <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
-              <span>{{ i + 1 }}.</span>
-              <span>{{ leader.name }}</span>
-            </p>
-
-          } @else if (i === 1) {
-            <p class="flex gap-2 text-xl font-semibold">
-              <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
-              <span>{{ i + 1 }}.</span>
-              <span>{{ leader.name }}</span>
-            </p>
-
-          } @else if (i === 2) {
-            <p class="flex gap-2 text-lg font-semibold">
-              <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
-              <span>{{ i + 1 }}.</span>
-              <span>{{ leader.name }}</span>
-            </p>
-          } @else {
-            <p class="flex gap-2">
-              <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
-              <span>{{ i + 1 }}.</span>
-              <span>{{ leader.name }}</span>
-            </p>
+      @if (isLoading()) {
+        <div class="mt-12 flex justify-center">
+          <app-loader />
+        </div>
+      } @else {
+        @if (leaders().length === 0) {
+          <div class="text-center">
+            <p class="text-2xl">🙁</p>
+            <p>No one has claimed glory yet</p>
+          </div>
+        } @else {
+          @for (leader of leaders(); track leader.id; let i = $index) {
+            <li
+              class="flex justify-between border-b border-dashed last:border-0"
+            >
+              @if (i === 0) {
+                <p class="flex gap-2 text-2xl font-semibold">
+                  <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
+                  <span>{{ i + 1 }}.</span>
+                  <span>{{ leader.name }}</span>
+                </p>
+              } @else if (i === 1) {
+                <p class="flex gap-2 text-xl font-semibold">
+                  <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
+                  <span>{{ i + 1 }}.</span>
+                  <span>{{ leader.name }}</span>
+                </p>
+              } @else if (i === 2) {
+                <p class="flex gap-2 text-lg font-semibold">
+                  <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
+                  <span>{{ i + 1 }}.</span>
+                  <span>{{ leader.name }}</span>
+                </p>
+              } @else {
+                <p class="flex gap-2">
+                  <span class="w-5">{{ leader | getLeaderMedal: i }}</span>
+                  <span>{{ i + 1 }}.</span>
+                  <span>{{ leader.name }}</span>
+                </p>
+              }
+              <p class="font-semibold">{{ leader.score }}</p>
+            </li>
           }
-          <p class="font-semibold">{{ leader.score }}</p>
-        </li>
+        }
       }
     </ul>
   </div>
